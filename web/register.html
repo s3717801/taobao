@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>taobao</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+</head>
+<style>
+    .row h3 {
+        text-align: left;
+        margin-right: 15px;
+        margin-left: 15px;
+    }
+    .row h3 a {
+        color: black;
+    }
+    .row hr {
+        margin-right: 15px;
+        margin-left: 15px;
+    }
+    .navbar-brand>img{
+        position: absolute;
+        top: 0;
+        left: 35px;
+    }
+</style>
+<body>
+<div class="navbar navbar-default yamm" id="navbar">
+    <div class="container">
+        <div class="navbar-collapse collapse" id="navigation">
+            <ul class="nav navbar-nav navbar-left">
+                <li class="active"><img src="./images/logo.png"  width="100%" height="50"></li>
+                <li class="active"><a href="index.html">Home</a></li>
+            </ul>
+            <div class="navbar-right">
+                <a href="login.html" id="login" class="btn btn-primary navbar-btn">Login</a>
+                <a href="register.html" id="register" class="btn btn-primary navbar-btn">Register</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="all">
+    <div id="content">
+        <div class="col-md-6" style="width: 100%">
+            <div class="box" style="width: 50%;margin:auto;">
+                <h1>Register</h1>
+                <hr>
+                <form method="post" id="loginForm">
+                    <div class="form-group">
+                        <label for="email">Account</label>
+                        <input type="text" class="form-control" name="name" id="name" v-model="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" name="pass" id="pass" v-model="pass">
+                    </div>
+                    <div class="text-center">
+                        <button type="button" id="loginBtn" class="btn btn-primary" @click="submit"><i class="fa fa-sign-in"></i>Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="./js/config.js"></script>
+<script src="./js/vue.min.js"></script>
+<script src="./js/vue-resource.min.js"></script>
+<script>
+    //new vue object
+    let vm = new Vue({
+        el: '#all',
+        data: {
+            name:'',
+            pass:''
+        },
+        methods:{
+            submit: function () {
+                this.$http.post(BASE_URL+'/api/register',{name:this.name,pass:this.pass},{emulateJSON:true}).then(function(res){
+                    //tips
+                    alert(res.body.msg);
+
+                    if(res.body.code === 0){
+                        //direction to home page
+                        setTimeout(function () {
+                            window.location.href = './login.html';
+                        },500)
+                    }
+                },function(res){
+                    //if request faild tips
+                    alert("request error")
+                });
+            }
+        }
+    })
+</script>
+</body>
+</html>
